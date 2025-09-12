@@ -9,6 +9,7 @@ import (
 	"github.com/tomamac/tbtest/backend/internal/entity"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -27,6 +28,10 @@ func main() {
 	}
 
 	db.AutoMigrate(&entity.Approval{})
+
+	app.Use(cors.New((cors.Config{
+		AllowOrigins: "http://localhost:5173",
+	})))
 
 	group := app.Group("/api")
 
