@@ -28,9 +28,13 @@ func (r *mockrepository) Get() ([]entity.Approval, error) {
 }
 
 func (r *mockrepository) Update(approvals UpdateApprovalRequest) error {
-	for i := range approvals.IDs {
-		r.approvals[i].Description = &approvals.Description
-		r.approvals[i].Status = approvals.Status
+	for _, id := range approvals.IDs {
+		for i := range r.approvals {
+			if r.approvals[i].ID == id {
+				r.approvals[i].Description = &approvals.Description
+				r.approvals[i].Status = approvals.Status
+			}
+		}
 	}
 
 	return nil
