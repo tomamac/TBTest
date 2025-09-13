@@ -25,5 +25,5 @@ type Approval struct {
 	ID          uint           `json:"id"`
 	Title       string         `json:"title" gorm:"not null"`
 	Description *string        `json:"description"`
-	Status      ApprovalStatus `json:"status" gorm:"type:approval_status;default:pending"`
+	Status      ApprovalStatus `json:"status" gorm:"type:approval_status;default:pending;not null"`
 }
