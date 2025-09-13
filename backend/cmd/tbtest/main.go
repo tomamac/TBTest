@@ -16,7 +16,7 @@ import (
 
 func main() {
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("load .env error")
+		log.Println("warning: .env not loaded, using system env")
 	}
 
 	app := fiber.New()
@@ -36,6 +36,7 @@ func main() {
 	group := app.Group("/api")
 
 	approval.RegisterHandlers(group.Group("/approval"), approval.NewService(approval.NewRepository(db)))
+	approval.RegisterHandlers(group.Group("/mock/approval"), approval.NewService(approval.NewMockRepository()))
 
 	app.Listen(":8001")
 }
