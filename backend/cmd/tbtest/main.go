@@ -21,21 +21,25 @@ func main() {
 
 	app := fiber.New()
 
-	db, err := gorm.Open(postgres.Open(os.Getenv("DSN")), &gorm.Config{})
-
-	if err != nil {
-		panic("failed to connect to the database")
-	}
-
-	db.AutoMigrate(&entity.Approval{})
-
 	app.Use(cors.New((cors.Config{
 		AllowOrigins: "http://localhost:5173",
 	})))
 
 	group := app.Group("/api")
 
-	approval.RegisterHandlers(group.Group("/approval"), approval.NewService(approval.NewRepository(db)))
+	dsn := os.Getenv("DSN")
+
+	if dsn != "" {
+		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+		if err != nil {
+			panic("failed to connect to the database")
+		}
+
+		db.AutoMigrate(&entity.Approval{})
+		approval.RegisterHandlers(group.Group("/approval"), approval.NewService(approval.NewRepository(db)))
+	}
+
 	approval.RegisterHandlers(group.Group("/mock/approval"), approval.NewService(approval.NewMockRepository()))
 
 	app.Listen(":8001")
