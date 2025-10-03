@@ -1,3 +1,6 @@
+# About
+This is an Approval system project for learning VueJS basics with Go backend\
+นี่คือโปรเจคระบบอนุมัติเพื่อเรียนรู้การใช้งาน VueJS เบื้องต้นโดยใช้ Go เป็น backend
 ## setup for backend
 ```bash
 cd backend
